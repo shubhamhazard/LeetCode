@@ -29,10 +29,31 @@ public:
         }
         return dp[n-1];
     }
+
+    int spaceOpti(int n, vector<int> &nums)
+    {
+        int prev2 = 0;
+        int prev1 = nums[0];
+
+        for(int i=1; i<n; i++)
+        {
+            int choice1 = nums[i];
+            if(i>1)
+                choice1 += prev2;
+            
+            int choice2 = prev1;
+
+            int curr = max(choice1, choice2);
+            prev2 = prev1;
+            prev1 = curr;
+        }
+        return prev1;
+    }
     int rob(vector<int>& nums) {
         int n = nums.size();
         vector<int> dp(n+1, -1);
         // return maxAmount(n-1,nums,dp);
-        return tabulation(n,nums);
+        // return tabulation(n,nums);
+        return spaceOpti(n,nums);
     }
 };
