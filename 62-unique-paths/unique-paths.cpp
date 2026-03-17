@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int f(int m, int n, vector<vector<int>> &dp){
+    int f(int &m, int &n, vector<vector<int>> &dp){
         if(m == 0 && n==0)
             return 1;
         
@@ -10,8 +10,12 @@ public:
         if(dp[m][n] != -1)
             return dp[m][n];
         
-        int left = f(m-1, n,dp);
-        int up = f(m, n-1,dp);
+        m = m-1;
+        int left = f(m, n,dp);
+        m = m+1;
+        n = n-1;
+        int up = f(m, n,dp);
+        n = n+1;
 
         return dp[m][n] = left+up;
     }
