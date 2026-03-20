@@ -30,17 +30,16 @@ public:
 
         return dp[0][0];
     }
-    int minimumTotal(vector<vector<int>>& triangle) {
-        int n = triangle.size();
+    int minimumTotal(vector<vector<int>>& grid) {
+        int n = grid.size();
+        vector<vector<int>> dp = grid;
 
-        vector<vector<int>> dp(n);
-
-        for(int i=0; i<n; i++){
-            dp[i] = vector<int>(triangle[i].size(), -1);
+        for (int i = n - 2; i >= 0; i--) {
+            for (int j = 0; j < grid[i].size(); j++) {
+                dp[i][j] += min(dp[i+1][j], dp[i+1][j+1]);
+            }
         }
 
-
-        // return f(0,0,triangle,n,dp);
-        return tab(n,triangle);
+        return dp[0][0];
     }
 };
