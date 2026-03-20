@@ -22,38 +22,45 @@ public:
         int m = matrix[0].size();
 
         vector<vector<int>> dp(n, vector<int> (m,0));
+        
+        vector<int> prev(n), curr(n);
 
         int mini = INT_MAX;
 
+        // for(int j=0; j<m; j++)
+        //     dp[0][j] = matrix[0][j];
+
         for(int j=0; j<m; j++)
-            dp[0][j] = matrix[0][j];
+            prev[j] = matrix[0][j];
 
         for(int i=1; i<n; i++){
             for(int j=0; j<m; j++){
 
-                int up = matrix[i][j] + dp[i-1][j];
+                int up = matrix[i][j] + prev[j];
 
                 int leftDia = matrix[i][j];
                 if(j-1 >=0)
-                    leftDia += dp[i-1][j-1];
+                    leftDia += prev[j-1];
                 else
                     leftDia += 1e8;
                 
                 int rightDia = matrix[i][j];
                 if(j+1 < m)
-                    rightDia += dp[i-1][j+1];
+                    rightDia += prev[j+1];
                 else
                     rightDia += 1e8;
 
-                dp[i][j] = min(up, min(leftDia, rightDia));
+                curr[j] = min(up, min(leftDia, rightDia));
             }
+            prev = curr;
         }
 
-        for(int j=0; j<m; j++){
-            mini = min(mini, dp[n-1][j]);
-        }
+        // for(int j=0; j<m; j++){
+        //     mini = min(mini, dp[n-1][j]);
+        // }
 
-        // return mini;
+        for(int j=0; j<m; j++)
+            mini = min(mini, prev[j]);
 
 
         // for(int j=0; j<m; j++){
